@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
- 
+
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const SizePlugin = require('size-plugin');
@@ -81,8 +81,8 @@ module.exports = {
       dir: 'dist',
       files: ['core.js'],
       rules: [{
-        search: 'importScripts(({',
-        replace: `importScripts('${publicPath}' + ({`,
+        search: 'importScripts(',
+        replace: `importScripts('${publicPath}' + `,
       }],
     }]),
   ],
