@@ -21,7 +21,6 @@ import { join } from 'path';
 import { testStaleWhileRevalidate } from '../../strategy-tests/strategy-tests';
 
 const writeFile = promisify(fs.writeFile);
-const unlink = promisify(fs.unlink);
 
 describe('AMP caching module', function() {
   const driver = global.__AMPSW.driver;
