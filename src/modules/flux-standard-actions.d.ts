@@ -18,6 +18,7 @@
 
 //test 2
 
+//test 3
 export interface FluxStandardAction<Payload, Meta = undefined> {
   /**
    * The `type` of an action identifies to the consumer the nature of the action that has occurred.
