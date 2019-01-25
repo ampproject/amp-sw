@@ -41,7 +41,7 @@ const publicPath = argv.publicPath || './dist/';
 
 module.exports = {
   entry: {
-    'core': './src/modules/core/index.ts',
+    'amp-sw': './src/modules/core/index.ts',
   },
   output: {
     path: buildPath,
@@ -79,7 +79,7 @@ module.exports = {
     new CleanWebpackPlugin([buildPath]),
     new ReplaceInFileWebpackPlugin([{
       dir: 'dist',
-      files: ['core.js'],
+      files: ['amp-sw.js'],
       rules: [{
         search: 'importScripts(',
         replace: `importScripts('${publicPath}' + `,

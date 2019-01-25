@@ -1,3 +1,5 @@
+
+[![build](https://travis-ci.org/ampproject/amp-sw.svg?branch=master)](https://travis-ci.org/ampproject/amp-sw.svg?branch=master)
 # AMP Service worker
 AMP service worker is a service worker library for your AMP pages.
 

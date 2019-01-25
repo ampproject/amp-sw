@@ -32,7 +32,7 @@ describe('Offline page module', function() {
           url: 'http://localhost:6881/test/offline.html',
         },
       },
-      '/test/dist/core.js',
+      '/test/dist/amp-sw.js',
     );
     await writeFile(serviceWorkerPath, generatedSW);
   });
