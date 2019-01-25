@@ -32,7 +32,7 @@ describe('Link prefetch module', function() {
       {
         linkPrefetchOptions: {},
       },
-      '/test/dist/core.js',
+      '/test/dist/amp-sw.js',
     );
     await writeFile(serviceWorkerPath, generatedSW);
   });

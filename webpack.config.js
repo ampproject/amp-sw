@@ -79,7 +79,7 @@ module.exports = {
     new CleanWebpackPlugin([buildPath]),
     new ReplaceInFileWebpackPlugin([{
       dir: 'dist',
-      files: ['core.js'],
+      files: ['amp-sw.js'],
       rules: [{
         search: 'importScripts(',
         replace: `importScripts('${publicPath}' + `,
