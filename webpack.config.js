@@ -41,7 +41,7 @@ const publicPath = argv.publicPath || './dist/';
 
 module.exports = {
   entry: {
-    'core': './src/modules/core/index.ts',
+    'amp-sw': './src/modules/core/index.ts',
   },
   output: {
     path: buildPath,
