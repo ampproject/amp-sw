@@ -16,26 +16,17 @@ Core use cases:
 In order to use this library user can include the library with an importScript in their service worker
 
 ```
-importScript('https://cdn.ampproject.org/amp-sw.js');
+importScript('https://cdn.ampproject.org/sw/amp-sw.js');
 AMP_SW.init({});
 ```
 
 ## Modules
-AMP service worker is made up of multiple modules that help it achieve the above said functionality
 
-1. Amp Caching - [Mandatory]
-This module caches the amp-scripts deployed to amp cdn and help them cache reliably.
-This module makes sure that the scripts demanded by the pages are delivered from the cache and the cahe itself is kept as fresh as possible,
+The AMP service worker is built up of the following modules:
+1. [AMP caching module](https://github.com/ampproject/amp-sw/tree/master/src/modules/amp-caching)
+2. [Document caching module](https://github.com/ampproject/amp-sw/tree/master/src/modules/document-caching)
+3. [Asset caching module](https://github.com/ampproject/amp-sw/tree/master/src/modules/asset-caching)
+4. [Link prefetch module](https://github.com/ampproject/amp-sw/tree/master/src/modules/link-prefetch)
+5. [Offline page module](https://github.com/ampproject/amp-sw/tree/master/src/modules/offline-page)
 
-2. Document Caching - [Mandatory]
-This module is responsible for caching publisher’s AMP document.
-By default, all AMP documents will be cached with a network-first strategy as this will ensure the freshness of the document is never hampered by the presence of the service worker.
-
-3. Asset Caching - [Optional]
-This is an optional module, which the publisher can use to tell us about the assets that are important for a page’s completeness. These can be static assets like images and more but not an HTML file as it might conflict with a navigation route.
-
-4. Prefetch outgoing links - [Optional]
-This will be another optional module which the publisher can opt into and express their will to prefetch any outgoing same-origin links from their AMP pages, thus increasing the performance for the user when navigation from an AMP page to a NON AMP page.
-
-5. Offline module - [Optional]
-This module will let the publisher specify an offline page which is to be shown in case the user navigates to page which wa not previously visited.
+The description of each module and their configuration options can be found inside their respective folder's README.
