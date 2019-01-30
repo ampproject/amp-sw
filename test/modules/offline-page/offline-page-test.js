@@ -19,6 +19,8 @@ const { buildSW } = require('../../../lib/builder/index');
 const { promisify } = require('util');
 const { join } = require('path');
 
+const sleep = promisify(setTimeout);
+
 const writeFile = promisify(fs.writeFile);
 
 describe('Offline page module', function() {
@@ -85,6 +87,16 @@ describe('Offline page module', function() {
     expect(result.url).to.be.equal(
       'http://localhost:6881/test/fixtures/bar.jpg',
     );
+  });
+
+  it('should use offline page when navigating to an uncached page', async () => {
+    global.__AMPSW.server.stop();
+    await sleep(5000);
+    await driver.navigate().refresh();
+    const title = await driver.getTitle();
+    expect(title).to.be.equal('Offline page');
+    global.__AMPSW.server.start();
+    await driver.navigate().refresh();
   });
 });
 
