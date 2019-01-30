@@ -24,7 +24,6 @@ const sleep = promisify(setTimeout);
 const writeFile = promisify(fs.writeFile);
 
 describe('Offline page module', function() {
-  this.timeout(30000);
   const driver = global.__AMPSW.driver;
   const serviceWorkerPath = join('test', 'offline-page-sw.js');
 
@@ -92,17 +91,12 @@ describe('Offline page module', function() {
 
   it('should use offline page when navigating to an uncached page', async () => {
     global.__AMPSW.server.stop();
-    await sleep(10000);
+    await sleep(5000);
     await driver.navigate().refresh();
-    await sleep(30000);
-    // const title = await driver.executeAsyncScript(async cb => {
-    //   executeScript(async cb => {
-    //     cb(window.document.getElementsByTagName('title')[0].innerText);
-    //   }, cb);
-    // });
-    // expect(title).to.be.equal(
-    //   'Offline page',
-    // );
+    const title = await driver.getTitle();
+    expect(title).to.be.equal('Offline page');
+    global.__AMPSW.server.start();
+    await driver.navigate().refresh();
   });
 });
 
