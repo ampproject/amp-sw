@@ -32,7 +32,14 @@ const documentCachingModule = new DocumentCachingModule();
 
 function init(config: ServiceWorkerConfiguration) {
   ampCachingModule.init();
-  const navRoute = documentCachingModule.init(config.documentCachingOptions);
+  let fallbackOfflinePageUrl;
+  if (config.offlinePageOptions) {
+    fallbackOfflinePageUrl = config.offlinePageOptions.url;
+  }
+  const navRoute = documentCachingModule.init(
+    config.documentCachingOptions,
+    fallbackOfflinePageUrl,
+  );
   if (config.assetCachingOptions) {
     import(/* webpackChunkName: "optional-modules" */ '../asset-caching/index').then(
       async ({ AssetCachingAmpModule }) => {
