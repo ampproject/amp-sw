@@ -30,7 +30,7 @@ declare global {
 const ampCachingModule = new AmpCachingModule();
 const documentCachingModule = new DocumentCachingModule();
 
-function init(config: ServiceWorkerConfiguration) {
+function init(config: ServiceWorkerConfiguration = {}) {
   ampCachingModule.init();
   let fallbackOfflinePageUrl;
   if (config.offlinePageOptions) {
