@@ -20,7 +20,7 @@ import { LinkPrefetchOptions } from './modules/link-prefetch';
 import { OfflinePageOptions } from './modules/offline-page';
 
 export interface ServiceWorkerConfiguration {
-  documentCachingOptions: DocumentCachingOptions;
+  documentCachingOptions?: DocumentCachingOptions;
   assetCachingOptions?: AssetCachingOptions;
   linkPrefetchOptions?: LinkPrefetchOptions;
   offlinePageOptions?: OfflinePageOptions;
