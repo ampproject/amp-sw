@@ -1,8 +1,8 @@
 {
-  "name": "sw-generator",
+  "name": "@ampproject/amp-sw",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/amp-sw.js",
   "scripts": {
     "build": "webpack",
     "build:prod": "npm run build -- --public-path='https://cdn.ampproject.org/sw/'",
@@ -10,7 +10,9 @@
     "pretest": "npm run transpile && npm run build -- --public-path='/test/dist/' && mkdir -p test/dist && cp -R dist/* test/dist",
     "test": "node -r esm ./test/index.js",
     "posttest": "npm run test:perf",
-    "test:perf": "mocha ./puppeteer-test/amp-caching-module-test.js  -t 30000 --exit"
+    "test:perf": "mocha ./puppeteer-test/amp-caching-module-test.js  -t 30000 --exit",
+    "prepublishOnly": "npm run build:prod",
+    "release": "np --yolo"
   },
   "repository": {
     "type": "git",
@@ -24,38 +26,38 @@
   },
   "homepage": "https://github.com/prateekbh/sw-generator#readme",
   "devDependencies": {
-    "@ampproject/rollup-plugin-closure-compiler": "0.9.0-beta.5",
-    "@babel/core": "^7.1.2",
-    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/plugin-transform-async-to-generator": "^7.2.0",
-    "@babel/preset-env": "^7.2.3",
-    "@types/node": "^10.12.18",
+    "@babel/core": "7.1.2",
+    "@babel/plugin-syntax-dynamic-import": "7.2.0",
+    "@babel/plugin-transform-async-to-generator": "7.2.0",
+    "@babel/preset-env": "7.2.3",
+    "@types/node": "10.12.18",
     "@types/tmp": "0.0.33",
     "@types/workbox-sw": "3.2.0",
-    "babel-loader": "^8.0.4",
+    "babel-loader": "8.0.4",
     "babel-plugin-filter-imports": "2.0.3",
     "chai": "4.2.0",
     "chromedriver": "2.42.0",
-    "clean-webpack-plugin": "^1.0.0",
-    "esm": "^3.0.84",
+    "clean-webpack-plugin": "1.0.0",
+    "esm": "3.0.84",
     "glob-fs": "0.1.7",
     "husky": "1.1.2",
     "lint-staged": "7.3.0",
     "mocha": "5.2.0",
-    "node-fetch": "^2.3.0",
+    "node-fetch": "2.3.0",
+    "np": "4.0.2",
     "npm-run": "5.0.1",
     "prettier": "1.14.3",
     "promisify": "0.0.3",
-    "puppeteer": "^1.11.0",
-    "replace-in-file-webpack-plugin": "^1.0.6",
+    "puppeteer": "1.11.0",
+    "replace-in-file-webpack-plugin": "1.0.6",
     "selenium-assistant": "5.3.0",
-    "serve-handler": "^5.0.7",
-    "size-plugin": "^1.1.1",
-    "terser-webpack-plugin": "^1.2.0",
-    "ts-loader": "^5.3.2",
+    "serve-handler": "5.0.7",
+    "size-plugin": "1.1.1",
+    "terser-webpack-plugin": "1.2.0",
+    "ts-loader": "5.3.2",
     "typescript": "3.1.2",
-    "webpack": "^5.0.0-alpha.2",
-    "webpack-cli": "^3.1.2",
+    "webpack": "4.29.1",
+    "webpack-cli": "3.2.3",
     "workbox-build": "3.6.2",
     "workbox-cache-expiration": "3.6.2",
     "workbox-core": "3.6.2",
@@ -84,5 +86,8 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }
