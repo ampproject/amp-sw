@@ -16,8 +16,8 @@ Core use cases:
 In order to use this library user can include the library with an importScript in their service worker
 
 ```
-importScript('https://cdn.ampproject.org/sw/amp-sw.js');
-AMP_SW.init({});
+importScripts('https://cdn.ampproject.org/sw/amp-sw.js');
+AMP_SW.init();
 ```
 
 ## Modules
