@@ -1,12 +1,12 @@
 # amp-caching module
-AMP caching module is a mendatory module and is bundles with in core `amp-sw.js`.
+AMP caching module is a mandatory module and is bundled within core `amp-sw.js`.
 This provides a caching for AMP resources, which mainly includes the unversioned/versioned jS binaries that we deploy as part of AMP deployment.
 
 The AMP deployed binaries and their caching strategies will be as follows:
 
 - Unversioned
 These are the binaries which the publishers are required to add in their AMP documents and have no {rtv} numbers in their path. E.g. https://cdn.ampproject.org/v0.js
-Since these files are not cached for a long time and are always referred by the same path, its best suited for the service worker to cache these files with a stale-while-revalidate strategy where every request to these resources will respond from cache and fetch a new copy to update the cache.
+Since these files are not cached for a long time and are always referred by the same path, its best suited for the service worker to cache these files with a `stale-while-revalidate` strategy where every request to these resources will respond from cache and fetch a new copy to update the cache.
 
     **Cache purge:**
 These files have a default cache period of 5 minutes, but in order to provide network resiliency, we will allow these files to stay for a day and be updated with staleWhileRevalidate.
