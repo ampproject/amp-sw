@@ -16,15 +16,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/prateekbh/sw-generator.git"
+    "url": "git+https://github.com/ampproject/amp-sw.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/prateekbh/sw-generator/issues"
+    "url": "https://github.com/ampproject/amp-sw/issues"
   },
-  "homepage": "https://github.com/prateekbh/sw-generator#readme",
+  "homepage": "https://github.com/ampproject/amp-sw#readme",
   "devDependencies": {
     "@babel/core": "7.1.2",
     "@babel/plugin-syntax-dynamic-import": "7.2.0",
