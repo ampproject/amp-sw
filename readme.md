@@ -7,8 +7,8 @@ The project aims to bring network resiliency and other network related optimizat
 Core use cases:
 - Cache AMP scripts with a `stale-while-revalidate` strategy for a longer duration that http-headers.
 - Cache valid visited AMP documents, and serve only in case of flaky network conditions.
-- Cache assets which are critical to a page with a given stategy.
-- Prefetch outgoing linksfrom an AMP page.
+- Cache assets which are critical to a page with a given strategy.
+- Prefetch outgoing links from an AMP page.
 - Cache an offline page in order to show when a user navigates to a page which was previously not visited.
 
 
