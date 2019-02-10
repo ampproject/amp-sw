@@ -24,5 +24,5 @@ AMP_SW.init({
 })
 ```
 
-In additions with this the outgoing links that you want to be precached need to have the attribute `data-prefetch`.
-e.g. `<a href='/' data-prefetch>`
+In additions with this the outgoing links that you want to be precached need to have the attribute `data-rel="prefetch"`.
+e.g. `<a href='/' data-rel='prefetch'>`
