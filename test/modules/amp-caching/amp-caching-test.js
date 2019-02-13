@@ -119,12 +119,12 @@ describe('AMP caching module', function() {
         expect(responseText).to.be.equal('dummy response');
       });
 
-      it('should expire cached Response after 2 days', async () => {
+      it('should expire cached Response after 8 days', async () => {
         const responseText = await addPreDatedResponseToCache(
           cacheName,
           scriptURL,
           driver,
-          2 * 24 * 60 * 60 * 1000,
+          8 * 24 * 60 * 60 * 1000,
         );
         expect(responseText).to.not.be.equal('dummy response');
       });
