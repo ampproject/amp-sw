@@ -33,7 +33,7 @@ export default class AmpDocumentCachablePlugin extends Plugin {
       try {
         const responseBody = await clonedResponse.text();
         // Check if the response is AMP HTML page, only then cache it.
-        if (/<html (⚡|amphtml)/.test(responseBody)) {
+        if (/<html.*(\s)(⚡️|amp)(\s.*>|>)/.test(responseBody)) {
           return response;
         }
       } catch (e) {
