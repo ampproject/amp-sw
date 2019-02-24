@@ -154,7 +154,7 @@ describe('Document caching module', function() {
   // TODO: figure out how to test navigation preloading
 
   describe('cacheAMPDocument', function() {
-    it('should be not cache the current page URL if its not AMP page', async () => {
+    it('should not cache the current page URL if its not AMP page', async () => {
       const generatedSW = await buildSW({}, '/test/dist/amp-sw.js');
       await writeFile(serviceWorkerPath, generatedSW);
       await driver.get('http://localhost:6881/test/index.html');
@@ -175,7 +175,7 @@ describe('Document caching module', function() {
       );
       expect(cachedData).to.be.null;
     });
-    it('should be cache the current page URL if its not AMP page', async () => {
+    it('should cache the current page URL if its AMP page', async () => {
       const generatedSW = await buildSW({}, '/test/dist/amp-sw.js');
       await writeFile(serviceWorkerPath, generatedSW);
       await driver.get('http://localhost:6881/test/alternate.amp.html');

@@ -75,7 +75,7 @@ export class AmpCachingModule implements AmpSwModule {
         cacheName: UNVERSIONED_CACHE_NAME,
         plugins: [
           new Plugin({
-            maxAgeSeconds: 24 * 60 * 60, // 1 day
+            maxAgeSeconds: 7 * 24 * 60 * 60, // 7 days
           }),
         ],
       }),
