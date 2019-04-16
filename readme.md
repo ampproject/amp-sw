@@ -19,7 +19,7 @@ To take advantage of AMP service worker, you'll need to host a resource loaded i
 - Host a service worker file at the same directory level as your AMP web app/ AMP page.
 - Add `amp-install-serviceworker`(https://amp.dev/documentation/components/amp-install-serviceworker) to your AMP documents and point it your service worker file.
 e.g.
-```
+```html
 <amp-install-serviceworker
   src="https://www.your-domain.com/serviceworker.js"
   data-iframe-src="https://www.your-domain.com/install-serviceworker.html"
@@ -27,12 +27,12 @@ e.g.
 </amp-install-serviceworker>
 ```
 - Add the following code to your service worker file to get the benefits of AMP service worker out of the box.
-```
+```js
 importScripts('https://cdn.ampproject.org/sw/amp-sw.js');
 AMP_SW.init();
 ```
 - You can configure amp service worker to customize the behavior of the service worker to fit your needs. e.g. You can cache your static assets, control your document timeout limits or add an offline page. Read more in [modules](#modules) section.
-```
+```js
 AMP_SW.init({
   assetCachingOptions: [{
     regexp: /\.(png|jpg|woff2|woff|css|js)/,
