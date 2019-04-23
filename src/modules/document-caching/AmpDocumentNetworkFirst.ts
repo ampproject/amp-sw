@@ -16,7 +16,7 @@
 
 // @ts-ignore
 import { NetworkFirst } from 'workbox-strategies';
-import { AMP_PUBLISHER_CACHE } from './constants';
+import { cacheName } from './constants';
 
 export class AmpDocumentNetworkFirst extends NetworkFirst {
   _offlineFallbackUrl?: string;
@@ -35,7 +35,7 @@ export class AmpDocumentNetworkFirst extends NetworkFirst {
   }) {
     let response = await super.makeRequest({ event, request });
     if (!response && this._offlineFallbackUrl) {
-      const cache = await caches.open(AMP_PUBLISHER_CACHE);
+      const cache = await caches.open(cacheName);
       response = await cache.match(this._offlineFallbackUrl);
     }
     return response;

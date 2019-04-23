@@ -18,7 +18,7 @@
 import router from 'workbox-routing';
 // @ts-ignore
 import { enable as enableNagigationPreload } from 'workbox-navigation-preload';
-import { AMP_PUBLISHER_CACHE } from './constants';
+import { cacheName } from './constants';
 import AmpDocumentCachablePlugin from './AmpDocumentCachablePlugin';
 import AmpNavigationRoute from './AmpNavigationRoute';
 import { AmpDocumentNetworkFirst } from './AmpDocumentNetworkFirst';
@@ -73,7 +73,7 @@ export class DocumentCachingModule implements AmpSwModule {
     const navRoute = new AmpNavigationRoute(
       new AmpDocumentNetworkFirst(
         {
-          AMP_PUBLISHER_CACHE,
+          cacheName,
           plugins: [
             new AmpDocumentCachablePlugin({
               maxEntries: documentCachingOptions.maxDocumentsInCache || 10,
@@ -109,7 +109,7 @@ export class DocumentCachingModule implements AmpSwModule {
           const responseToBeCached = await ampCachablePlugin.cacheWillUpdate({
             response,
           });
-          const cache = await caches.open(AMP_PUBLISHER_CACHE);
+          const cache = await caches.open(cacheName);
           if (responseToBeCached) {
             cache.put(request, responseToBeCached);
           }

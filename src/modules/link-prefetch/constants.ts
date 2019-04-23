@@ -1,1 +1,1 @@
-export const AMP_PREFETCHED_LINKS = 'AMP-PREFETCHED-LINKS';
+export const cacheName: string = 'AMP-PREFETCHED-LINKS';

@@ -18,9 +18,9 @@ import {
   VERSIONED_CACHE_NAME,
   UNVERSIONED_CACHE_NAME,
 } from '../amp-caching/constants';
-import { AMP_ASSET_CACHE } from '../asset-caching/constants';
-import { AMP_PUBLISHER_CACHE } from '../document-caching/constants';
-import { AMP_PREFETCHED_LINKS } from '../link-prefetch/constants';
+import { cacheName as AMP_ASSET_CACHE } from '../asset-caching/constants';
+import { cacheName as AMP_PUBLISHER_CACHE } from '../document-caching/constants';
+import { cacheName as AMP_PREFETCHED_LINKS } from '../link-prefetch/constants';
 
 export class ServiceWorkerRemover {
   async installNoOpServiceWorker() {

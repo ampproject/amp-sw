@@ -22,7 +22,7 @@ import { FluxStandardAction } from '../flux-standard-actions';
 import AmpNavigationRoute from '../document-caching/AmpNavigationRoute';
 import { AmpPrefetchPlugin } from './AmpPrefetchPlugin';
 import { AmpSwModule } from '../core/AmpSwModule';
-import { AMP_PREFETCHED_LINKS } from './constants';
+import { cacheName } from './constants';
 
 export type LinkPrefetchOptions = {
   maxAgeSecondsInCache: Number;
@@ -79,7 +79,7 @@ export class LinkPrefetchAmpModule implements AmpSwModule {
     linkPrefetchOptions_ = linkPrefetchOptions;
     navigationRoute_ = navigationRoute;
     // Read all prefetched links and add it to deny list.
-    const cache = await caches.open(AMP_PREFETCHED_LINKS);
+    const cache = await caches.open(cacheName);
     const linksRegExps: Array<RegExp> = [];
     (await cache.keys()).forEach(request => {
       let url = request.url;
@@ -107,7 +107,7 @@ export class LinkPrefetchAmpModule implements AmpSwModule {
       router.registerRoute(
         link,
         new CacheFirst({
-          AMP_PREFETCHED_LINKS,
+          cacheName,
           plugins: [
             new AmpPrefetchPlugin({
               maxEntries: 10,
@@ -134,7 +134,7 @@ export class LinkPrefetchAmpModule implements AmpSwModule {
     });
     // TODO: add logic to only allow URLs within SW scope.
     if (allowedLinks && allowedLinks.length > 0) {
-      const cache = await caches.open(AMP_PREFETCHED_LINKS);
+      const cache = await caches.open(cacheName);
       await cache.addAll(allowedLinks);
       const linkRegExps = allowedLinks.map(link =>
         convertUrlToRegExp(cleanHostInfoFromUrl(link)),
