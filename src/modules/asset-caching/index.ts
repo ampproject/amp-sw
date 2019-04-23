@@ -24,7 +24,7 @@ import {
 } from 'workbox-strategies';
 // @ts-ignore
 import { Plugin } from 'workbox-cache-expiration';
-import { cacheName } from './constants';
+import { AMP_ASSET_CACHE } from './constants';
 import { AmpSwModule } from '../core/AmpSwModule';
 
 export type AssetCachingOptions = Array<{
@@ -75,7 +75,7 @@ export class AssetCachingAmpModule implements AmpSwModule {
     assetCachingOptions.forEach(assetCachingOption => {
       let cachingStrategy = null;
       const cachingConfig = {
-        cacheName,
+        AMP_ASSET_CACHE,
         plugins: [
           new AssetCachingPlugin({
             maxEntries: 25,

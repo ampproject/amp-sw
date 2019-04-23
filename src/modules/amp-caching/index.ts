@@ -22,12 +22,11 @@ import { CacheFirst, StaleWhileRevalidate } from 'workbox-strategies';
 import { Plugin } from 'workbox-cache-expiration';
 import { FluxStandardAction } from '../flux-standard-actions';
 import { AmpSwModule } from '../core/AmpSwModule';
+import { UNVERSIONED_CACHE_NAME, VERSIONED_CACHE_NAME } from './constants';
 
 const VERSIONED_ASSETS_RE = /^https:\/\/cdn.ampproject.org\/rtv\/\d*\//;
 const UNVERSIONED_RUNTIME_RE = /^https:\/\/cdn.ampproject.org\/\w*(-\w*)?.js/;
 const UNVERSIONED_EXTENSIONS_RE = /^https:\/\/cdn.ampproject.org\/v0\//;
-const UNVERSIONED_CACHE_NAME = 'AMP-UNVERSIONED-CACHE';
-const VERSIONED_CACHE_NAME = 'AMP-VERSIONED-CACHE';
 
 async function cachePreRequestedScripts(scripts: Array<string>) {
   const unversionedScripts: Array<Request> = [];

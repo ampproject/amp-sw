@@ -19,10 +19,12 @@ import { ServiceWorkerConfiguration } from '../../configuration';
 import { AssetCachingOptions } from '../asset-caching';
 import { LinkPrefetchOptions } from '../link-prefetch';
 import { OfflinePageOptions } from '../offline-page';
+
 declare global {
   interface WorkerGlobalScope {
     AMP_SW: {
       init: Function;
+      eject: Function;
     };
   }
 }
@@ -96,7 +98,17 @@ function init(config: ServiceWorkerConfiguration = {}) {
   });
 }
 
+function eject() {
+  import(/* webpackChunkName: "service-worker-remover" */ '../service-worker-remover/index').then(
+    async ({ ServiceWorkerRemover }) => {
+      const swRemover = new ServiceWorkerRemover();
+      swRemover.installNoOpServiceWorker();
+    },
+  );
+}
+
 // Initialize AMP_SW namespace
 self['AMP_SW'] = {
   init,
+  eject,
 };

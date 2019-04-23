@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { cacheName as documentCache } from '../document-caching/constants';
-import { cacheName as assetCache } from '../asset-caching/constants';
+import { AMP_PUBLISHER_CACHE as documentCache } from '../document-caching/constants';
+import { AMP_ASSET_CACHE as assetCache } from '../asset-caching/constants';
 import { AmpSwModule } from '../core/AmpSwModule';
 
 export type OfflinePageOptions = {
