@@ -99,7 +99,7 @@ describe('Offline page module', function() {
     const title = await driver.getTitle();
     expect(title).to.be.equal('Offline page');
     await driver.setNetworkConditions({
-      online: true,
+      offline: false,
       latency: 0,
       throughput: 500 * 1024,
     });
