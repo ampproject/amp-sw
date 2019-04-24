@@ -34,7 +34,7 @@ export async function buildSW(
   }
   code = `importScripts('${importFrom}')\n`;
   if (eject) {
-    code += 'AMP_SW.eject()';
+    code += 'AMP_SW.installNoOpServiceWorker()';
   } else {
     code += `AMP_SW.init(${serializeObject(config || {})})`;
   }

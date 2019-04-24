@@ -90,12 +90,19 @@ describe('Offline page module', function() {
   });
 
   it('should use offline page when navigating to an uncached page', async () => {
-    global.__AMPSW.server.stop();
-    await sleep(5000);
+    await driver.setNetworkConditions({
+      offline: true,
+      latency: 5,
+      throughput: 500 * 1024,
+    });
     await driver.navigate().refresh();
     const title = await driver.getTitle();
     expect(title).to.be.equal('Offline page');
-    global.__AMPSW.server.start();
+    await driver.setNetworkConditions({
+      offline: false,
+      latency: 0,
+      throughput: 500 * 1024,
+    });
     await driver.navigate().refresh();
   });
 });

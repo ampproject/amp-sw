@@ -24,7 +24,7 @@ declare global {
   interface WorkerGlobalScope {
     AMP_SW: {
       init: Function;
-      eject: Function;
+      installNoOpServiceWorker: Function;
     };
   }
 }
@@ -98,7 +98,7 @@ function init(config: ServiceWorkerConfiguration = {}) {
   });
 }
 
-function eject() {
+function installNoOpServiceWorker() {
   import(/* webpackChunkName: "service-worker-remover" */ '../service-worker-remover/index').then(
     async ({ ServiceWorkerRemover }) => {
       const swRemover = new ServiceWorkerRemover();
@@ -110,5 +110,5 @@ function eject() {
 // Initialize AMP_SW namespace
 self['AMP_SW'] = {
   init,
-  eject,
+  installNoOpServiceWorker,
 };
