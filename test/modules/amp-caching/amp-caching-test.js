@@ -170,10 +170,9 @@ describe('AMP caching module', function() {
         }
         // TODO: find a better solution to this.
         // Allow script to be put in cache
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        await new Promise(resolve => setTimeout(resolve, 500));
         const cache = await caches.open(cacheName);
-        const keys = await cache.keys();
-        cb(keys.map(request => request.url));
+        cb((await cache.keys()).map(request => request.url));
       },
       cacheName,
       payload,
