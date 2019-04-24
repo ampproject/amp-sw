@@ -18,8 +18,10 @@ import { buildSW } from '../../../lib/builder/index';
 import { promisify } from 'util';
 import * as fs from 'fs';
 import { join } from 'path';
+const fetch = require('node-fetch');
 import { testStaleWhileRevalidate } from '../../strategy-tests/strategy-tests';
 
+const METADATA_URL = 'https://cdn.ampproject.org/rtv/metadata';
 const writeFile = promisify(fs.writeFile);
 
 describe('AMP caching module', function() {
@@ -135,11 +137,14 @@ describe('AMP caching module', function() {
   });
 
   it('should cache AMP scripts given by postMessage', async () => {
+    const ampRuntimeVersion = (await (await fetch(METADATA_URL)).json())[
+      'ampRuntimeVersion'
+    ];
     await driver.get('http://localhost:6881/test/index.html');
     const cacheName = 'AMP-VERSIONED-CACHE';
     const payload = [
-      'https://cdn.ampproject.org/rtv/001525381599226/v0.js',
-      'https://cdn.ampproject.org/rtv/001810022028350/v0/amp-mustache-0.1.js',
+      `https://cdn.ampproject.org/rtv/${ampRuntimeVersion}/v0.js`,
+      `https://cdn.ampproject.org/rtv/${ampRuntimeVersion}/v0/amp-mustache-0.1.js`,
       'https://code.jquery.com/jquery-3.3.1.min.js',
     ];
     let hasVersionJSInCache = await driver.executeAsyncScript(
