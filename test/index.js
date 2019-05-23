@@ -18,12 +18,16 @@ import seleniumAssistant from 'selenium-assistant';
 import Mocha from 'mocha';
 import { expect } from 'chai';
 import { argv } from 'yargs';
+import { promisify } from 'util';
 import http from 'http';
 import glob from 'glob-fs';
+import * as fs from 'fs';
 const handler = require('serve-handler');
+const fetch = require('node-fetch');
 
 const isLocalExecution = !!argv['local'];
 const globfinder = glob();
+const writeFile = promisify(fs.writeFile);
 
 const server = http.createServer((request, response) => {
   request
@@ -65,7 +69,7 @@ const server = http.createServer((request, response) => {
     },
   };
 
-  await global.__AMPSW.server.start();
+  await Promise.all([downloadLatestAmpMeta(), global.__AMPSW.server.start()]);
 
   const browsers = seleniumAssistant.getLocalBrowsers();
   browsers.forEach(async browser => {
@@ -84,6 +88,15 @@ const server = http.createServer((request, response) => {
     runMochaForBrowser(driver);
   });
 })();
+
+async function downloadLatestAmpMeta() {
+  const METADATA_URL = 'https://cdn.ampproject.org/rtv/metadata';
+  const ampRuntimeMeta = await (await fetch(METADATA_URL)).json();
+  await writeFile(
+    __dirname + '/amp_metadata.json',
+    JSON.stringify(ampRuntimeMeta),
+  );
+}
 
 function runMochaForBrowser(driver) {
   global.__AMPSW.driver = driver;

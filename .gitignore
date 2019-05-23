@@ -72,5 +72,5 @@ build
 test/**/*-sw.js
 sample/**/*-sw.js
 
-#deploy configs
-.netlify
+#amp metadata
+amp_metadata.json
