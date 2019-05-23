@@ -175,6 +175,7 @@ describe('Document caching module', function() {
       );
       expect(cachedData).to.be.null;
     });
+
     it('should cache the current page URL if its AMP page', async () => {
       const generatedSW = await buildSW({}, '/test/dist/amp-sw.js');
       await writeFile(serviceWorkerPath, generatedSW);
@@ -200,6 +201,47 @@ describe('Document caching module', function() {
           cb(
             await cache.match(
               new Request('http://localhost:6881/test/alternate.amp.html'),
+            ),
+          );
+        },
+        cacheName,
+      );
+      expect(cachedData).to.not.be.null;
+    });
+
+    it('should allow non AMP pages via config', async () => {
+      const generatedSW = await buildSW(
+        {
+          documentCachingOptions: {
+            allowedNonAMPPages: [/index.html/],
+          },
+        },
+        '/test/dist/amp-sw.js',
+      );
+      await writeFile(serviceWorkerPath, generatedSW);
+      await driver.get('http://localhost:6881/test/alternate.amp.html');
+      await driver.executeAsyncScript(cb => {
+        // install util scripts
+        const cleanupScript = document.createElement('script');
+        cleanupScript.src = '/test/test-utils/sw-test-cleanup.js';
+        document.body.appendChild(cleanupScript);
+        const waitScript = document.createElement('script');
+        waitScript.src = '/test/test-utils/wait-for-sw-state.js';
+        document.body.appendChild(waitScript);
+        cb();
+      });
+      await performCleanupAndWaitForSWActivation(
+        driver,
+        `/${serviceWorkerPath}`,
+        false,
+      );
+      await driver.get('http://localhost:6881/test/index.html');
+      let cachedData = await driver.executeAsyncScript(
+        async (cacheName, cb) => {
+          const cache = await caches.open(cacheName);
+          cb(
+            await cache.match(
+              new Request('http://localhost:6881/test/index.html'),
             ),
           );
         },

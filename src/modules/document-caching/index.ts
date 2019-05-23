@@ -30,6 +30,7 @@ export type DocumentCachingOptions = {
   timeoutSeconds?: Number;
   maxDocumentsInCache?: Number;
   maxAgeSecondsforDocumentsInCache?: Number;
+  allowedNonAMPPages?: Array<RegExp>;
 };
 
 export class DocumentCachingModule implements AmpSwModule {
@@ -80,6 +81,7 @@ export class DocumentCachingModule implements AmpSwModule {
               maxAgeSeconds:
                 documentCachingOptions.maxAgeSecondsforDocumentsInCache ||
                 5 * 24 * 60 * 60,
+              allowedNonAMPPages: documentCachingOptions.allowedNonAMPPages,
             }),
           ],
           networkTimeoutSeconds: documentCachingOptions.timeoutSeconds,

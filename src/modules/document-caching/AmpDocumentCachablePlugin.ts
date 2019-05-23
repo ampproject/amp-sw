@@ -18,8 +18,20 @@
 import { Plugin } from 'workbox-cache-expiration';
 
 export default class AmpDocumentCachablePlugin extends Plugin {
-  constructor(config: any) {
-    super(config);
+  private allowedPages_: Array<RegExp>;
+
+  constructor(config: {
+    maxEntries?: Number;
+    maxAgeSeconds?: Number;
+    allowedNonAMPPages?: Array<RegExp>;
+  }) {
+    const { allowedNonAMPPages, ...pluginConfig } = config;
+    super(pluginConfig);
+    if (allowedNonAMPPages && Array.isArray(allowedNonAMPPages)) {
+      this.allowedPages_ = allowedNonAMPPages;
+    } else if (allowedNonAMPPages && !Array.isArray(allowedNonAMPPages)) {
+      throw new TypeError('allowedNonAMPPages should be an array of RegExp');
+    }
   }
   async cacheWillUpdate({
     response,
@@ -28,9 +40,20 @@ export default class AmpDocumentCachablePlugin extends Plugin {
   }): Promise<Response | null> {
     const clonedResponse = response.clone();
     const responseContentType = clonedResponse.headers.get('content-type');
+
     // TODO: implement header check as well as it'll be less work.
     if (responseContentType && responseContentType.includes('text/html')) {
       try {
+        // Check if the url qualifies for any explicitly allowed page.
+        if (this.allowedPages_) {
+          for (let index = 0; index < this.allowedPages_.length; index++) {
+            const currentTestUrl = this.allowedPages_[index];
+            if (currentTestUrl.test(clonedResponse.url)) {
+              return response;
+            }
+          }
+        }
+
         const responseBody = await clonedResponse.text();
         // Check if the response is AMP HTML page, only then cache it.
         if (/<html\s[^>]*(⚡|amp)[^>]*>/.test(responseBody)) {
