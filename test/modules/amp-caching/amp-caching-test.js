@@ -18,11 +18,11 @@ import { buildSW } from '../../../lib/builder/index';
 import { promisify } from 'util';
 import * as fs from 'fs';
 import { join } from 'path';
-const fetch = require('node-fetch');
 import { testStaleWhileRevalidate } from '../../strategy-tests/strategy-tests';
+const AMP_METADATA = require('../../amp_metadata.json');
 
-const METADATA_URL = 'https://cdn.ampproject.org/rtv/metadata';
 const writeFile = promisify(fs.writeFile);
+const ampRuntimeVersion = AMP_METADATA['ampRuntimeVersion'];
 
 describe('AMP caching module', function() {
   const driver = global.__AMPSW.driver;
@@ -58,9 +58,8 @@ describe('AMP caching module', function() {
   });
 
   describe('Versioned JS', () => {
-    const ampRuntime = 'https://cdn.ampproject.org/rtv/011810152207300/v0.js';
-    const ampExtension =
-      'https://cdn.ampproject.org/rtv/011810152207300/v0/amp-mustache-0.1.js';
+    const ampRuntime = `https://cdn.ampproject.org/rtv/${ampRuntimeVersion}/v0.js`;
+    const ampExtension = `https://cdn.ampproject.org/rtv/${ampRuntimeVersion}/v0/amp-mustache-0.1.js`;
 
     const cacheName = 'AMP-VERSIONED-CACHE';
 
@@ -137,9 +136,6 @@ describe('AMP caching module', function() {
   });
 
   it('should cache AMP scripts given by postMessage', async () => {
-    const ampRuntimeVersion = (await (await fetch(METADATA_URL)).json())[
-      'ampRuntimeVersion'
-    ];
     await driver.get('http://localhost:6881/test/index.html');
     const cacheName = 'AMP-VERSIONED-CACHE';
     const payload = [
