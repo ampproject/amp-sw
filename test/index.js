@@ -19,6 +19,7 @@ import Mocha from 'mocha';
 import { expect } from 'chai';
 import { argv } from 'yargs';
 import { promisify } from 'util';
+import { join } from 'path';
 import http from 'http';
 import glob from 'glob-fs';
 import * as fs from 'fs';
@@ -93,7 +94,7 @@ async function downloadLatestAmpMeta() {
   const METADATA_URL = 'https://cdn.ampproject.org/rtv/metadata';
   const ampRuntimeMeta = await (await fetch(METADATA_URL)).json();
   await writeFile(
-    __dirname + '/amp_metadata.json',
+    join(__dirname, 'amp_metadata.json'),
     JSON.stringify(ampRuntimeMeta),
   );
 }
