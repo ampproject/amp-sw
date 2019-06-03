@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { cacheName as AMP_PUBLISHER_CACHE_NAME } from '../document-caching/constants';
-import { cacheName as ASSET_CACHE } from '../asset-caching/constants';
+import { AMP_PUBLISHER_CACHE } from '../document-caching/constants';
+import { AMP_ASSET_CACHE } from '../asset-caching/constants';
 import { AmpSwModule } from '../core/AmpSwModule';
 
 export type OfflinePageOptions = {
@@ -25,8 +25,10 @@ export type OfflinePageOptions = {
 
 export class OfflinePageAmpSwModule implements AmpSwModule {
   async init(url: string, assets: Array<string>) {
-    const publisherCache = await caches.open(AMP_PUBLISHER_CACHE_NAME);
-    const assetsCache = await caches.open(ASSET_CACHE);
+    const [publisherCache, assetsCache] = await Promise.all([
+      caches.open(AMP_PUBLISHER_CACHE),
+      caches.open(AMP_ASSET_CACHE),
+    ]);
     const response = await fetch(url);
     if (response.ok) {
       await publisherCache.put(new Request(url), response);

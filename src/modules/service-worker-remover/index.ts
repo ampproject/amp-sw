@@ -18,9 +18,9 @@ import {
   VERSIONED_CACHE_NAME,
   UNVERSIONED_CACHE_NAME,
 } from '../amp-caching/constants';
-import { cacheName as AMP_ASSET_CACHE } from '../asset-caching/constants';
-import { cacheName as AMP_PUBLISHER_CACHE } from '../document-caching/constants';
-import { cacheName as AMP_PREFETCHED_LINKS } from '../link-prefetch/constants';
+import { AMP_ASSET_CACHE } from '../asset-caching/constants';
+import { AMP_PUBLISHER_CACHE } from '../document-caching/constants';
+import { AMP_PREFETCHED_LINKS } from '../link-prefetch/constants';
 
 export class ServiceWorkerRemover {
   async installNoOpServiceWorker() {
@@ -55,9 +55,9 @@ export class ServiceWorkerRemover {
     return clients.claim().then(async () => {
       // Cache current document if its AMP.
       const windowClients = await clients.matchAll({ type: 'window' });
-      windowClients.forEach((client: WindowClient) => {
-        client.navigate(client.url);
-      });
+      windowClients.forEach((client: WindowClient) =>
+        client.navigate(client.url),
+      );
     });
   }
 }

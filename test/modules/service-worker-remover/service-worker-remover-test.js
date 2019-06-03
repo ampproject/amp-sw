@@ -59,9 +59,10 @@ describe('AMP Service worker remover', function() {
 
   it('should remove currently registered service worker', async () => {
     const installedServiceWorker = await driver.executeAsyncScript(async cb => {
-      executeScript(async cb => {
-        cb(navigator.serviceWorker.controller.scriptURL);
-      }, cb);
+      executeScript(
+        async cb => cb(navigator.serviceWorker.controller.scriptURL),
+        cb,
+      );
     });
     expect(installedServiceWorker).to.be.equal(
       'http://localhost:6881/test/amp-caching-sw.js',

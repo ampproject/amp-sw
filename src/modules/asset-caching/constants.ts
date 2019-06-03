@@ -14,4 +14,4 @@
  * limitations under the License.
  */
 
-export const cacheName = 'AMP-ASSET-CACHE';
+export const AMP_ASSET_CACHE = 'AMP-ASSET-CACHE';
