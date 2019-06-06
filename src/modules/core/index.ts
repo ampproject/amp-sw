@@ -24,7 +24,7 @@ declare global {
   interface WorkerGlobalScope {
     AMP_SW: {
       init: Function;
-      installNoOpServiceWorker: () => void;
+      forcedNullifcation: () => void;
     };
   }
 }
@@ -98,7 +98,7 @@ function init(config: ServiceWorkerConfiguration = {}) {
   });
 }
 
-function installNoOpServiceWorker() {
+function forcedNullifcation() {
   import(/* webpackChunkName: "service-worker-remover" */ '../service-worker-remover/index').then(
     async ({ ServiceWorkerRemover }) => {
       new ServiceWorkerRemover().installNoOpServiceWorker();
@@ -109,5 +109,5 @@ function installNoOpServiceWorker() {
 // Initialize AMP_SW namespace
 self['AMP_SW'] = {
   init,
-  installNoOpServiceWorker,
+  forcedNullifcation,
 };

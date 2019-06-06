@@ -23,7 +23,7 @@ export async function buildSW(
     documentCachingOptions: {},
   },
   importFrom: string = 'https://cdn.ampproject.org/amp-sw.js',
-  eject: boolean = false,
+  forcedNullifcation: boolean = false,
 ) {
   let code = '';
   if (config.offlinePageOptions && config.offlinePageOptions.url) {
@@ -33,11 +33,9 @@ export async function buildSW(
     );
   }
   code = `importScripts('${importFrom}')\n`;
-  if (eject) {
-    code += 'AMP_SW.installNoOpServiceWorker()';
+  if (forcedNullifcation) {
+    return code + 'AMP_SW.forcedNullifcation()';
   } else {
-    code += `AMP_SW.init(${serializeObject(config || {})})`;
+    return code + `AMP_SW.init(${serializeObject(config || {})})`;
   }
-
-  return code;
 }
