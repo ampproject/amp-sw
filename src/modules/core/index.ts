@@ -100,9 +100,8 @@ function init(config: ServiceWorkerConfiguration = {}) {
 
 function forcedNullifcation() {
   import(/* webpackChunkName: "service-worker-remover" */ '../service-worker-remover/index').then(
-    async ({ ServiceWorkerRemover }) => {
-      new ServiceWorkerRemover().installNoOpServiceWorker();
-    },
+    async ({ ServiceWorkerRemover }) =>
+      new ServiceWorkerRemover().installNoOpServiceWorker(),
   );
 }
 
