@@ -10,7 +10,7 @@
     "pretest": "npm run transpile && npm run build -- --public-path='/test/dist/' && mkdir -p test/dist && cp -R dist/* test/dist",
     "test": "node -r esm ./test/index.js",
     "posttest": "npm run test:perf",
-    "test:perf": "mocha ./puppeteer-test/amp-caching-module-test.js  -t 30000 --exit",
+    "test:perf": "ava ./test/performance-test/amp-caching-module-test.js  -t 30000 --exit",
     "prepublishOnly": "npm run build:prod",
     "release": "np --yolo"
   },
@@ -33,6 +33,7 @@
     "@types/node": "10.12.18",
     "@types/tmp": "0.0.33",
     "@types/workbox-sw": "3.2.0",
+    "ava": "2.1.0",
     "babel-loader": "8.0.4",
     "babel-plugin-filter-imports": "2.0.3",
     "chai": "4.2.0",

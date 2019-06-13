@@ -20,28 +20,16 @@ import { expect } from 'chai';
 import { argv } from 'yargs';
 import { promisify } from 'util';
 import { join } from 'path';
-import http from 'http';
 import glob from 'glob-fs';
 import * as fs from 'fs';
-const handler = require('serve-handler');
+import { createServer, startServer } from './server';
 const fetch = require('node-fetch');
 
 const isLocalExecution = !!argv['local'];
 const globfinder = glob();
 const writeFile = promisify(fs.writeFile);
 
-const server = http.createServer((request, response) => {
-  request
-    .addListener('end', async () => {
-      //
-      // Serve files!
-      //
-      await handler(request, response, {
-        cleanUrls: false,
-      });
-    })
-    .resume();
-});
+const server = createServer();
 
 (async () => {
   const expiration = 24;
@@ -59,14 +47,7 @@ const server = http.createServer((request, response) => {
       stop: () => {
         server.close();
       },
-      start: () => {
-        return new Promise(resolve => {
-          server.listen(6881, () => {
-            console.log('Running at http://localhost:6881');
-            resolve();
-          });
-        });
-      },
+      start: () => startServer(server, 6881),
     },
   };
 
@@ -107,6 +88,10 @@ function runMochaForBrowser(driver) {
     argv['files'] || 'test/**/*-test.js',
   );
   testFiles.forEach(testFile => {
+    // performance tests are not run in browser with mocha
+    if (testFile.startsWith('test/performance-test/')) {
+      return;
+    }
     console.log(`Testing ${testFile}`);
     mocha.addFile(testFile);
   });
