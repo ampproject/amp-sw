@@ -14,4 +14,4 @@
  * limitations under the License.
  */
 
-export const cacheName: string = 'AMP-PUBLISHER-CACHE';
+export const AMP_PUBLISHER_CACHE: string = 'AMP-PUBLISHER-CACHE';
