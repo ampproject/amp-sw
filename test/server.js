@@ -35,7 +35,7 @@ const createServer = () => {
 const startServer = (server, port) => {
   return new Promise(resolve => {
     server.listen(port, () => {
-      console.log(`Running at http://localhost:${port}`);
+      console.log(`Test server running at http://localhost:${port}`);
       resolve();
     });
   });

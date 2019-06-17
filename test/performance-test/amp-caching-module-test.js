@@ -40,6 +40,7 @@ async function interceptAmpScripts(page) {
     if (/https:\/\/cdn.ampproject.org\/.*\.js/.test(request.url())) {
       const response = await fetch(request.url());
       const body = await response.text();
+      // artificial sleep to mock slow networks.
       await sleep(1000);
       request.respond({
         status: 200,
@@ -62,11 +63,11 @@ test.before(async () => {
 });
 
 test.after(() => {
-  // server.close();
+  server.close();
 });
 
 test('should enable fast script response when the browser cache fails to respond', async t => {
-  const browser = await puppeteer.launch();
+  let browser = await puppeteer.launch();
   let page = await browser.newPage();
   await interceptAmpScripts(page);
   // load page for the first time
@@ -85,6 +86,8 @@ test('should enable fast script response when the browser cache fails to respond
       .filter(resource => resource.initiatorType === 'script')
       .reduce((current, next) => current + next.duration, 0);
   });
+  browser.close();
+  browser = await puppeteer.launch();
   page = await browser.newPage();
   await interceptAmpScripts(page);
   // load tpage the first time
@@ -92,8 +95,9 @@ test('should enable fast script response when the browser cache fails to respond
     waitUntil: 'networkidle0',
   });
   await page.setOfflineMode(true);
-  page.removeAllListeners('request');
-  await page.setRequestInterception(false);
+  await page.evaluate(() =>
+    navigator.serviceWorker.register('/test/amp-caching-sw.js'),
+  );
   // let cache expire
   await sleep(4000);
   // reload the page
