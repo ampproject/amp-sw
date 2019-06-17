@@ -110,10 +110,6 @@ test('should enable fast script response when the browser cache fails to respond
       .filter(resource => resource.initiatorType === 'script')
       .reduce((current, next) => current + next.duration, 0);
   });
-  console.log({
-    totalAmpScriptsLoadTimeWithSW,
-    totalAmpScriptsLoadTimeWithoutSW,
-  });
   t.assert(
     totalAmpScriptsLoadTimeWithSW < 0.3 * totalAmpScriptsLoadTimeWithoutSW,
   );
