@@ -19,12 +19,13 @@ import { ServiceWorkerConfiguration } from '../../configuration';
 import { AssetCachingOptions } from '../asset-caching';
 import { LinkPrefetchOptions } from '../link-prefetch';
 import { OfflinePageOptions } from '../offline-page';
-
+import { version } from '../../../package.json';
 declare global {
   interface WorkerGlobalScope {
     AMP_SW: {
       init: Function;
       forcedNullifcation: () => void;
+      version: String;
     };
   }
 }
@@ -109,4 +110,5 @@ function forcedNullifcation() {
 self['AMP_SW'] = {
   init,
   forcedNullifcation,
+  version: `AMP_SW_v${version}`,
 };

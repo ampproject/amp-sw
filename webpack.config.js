@@ -61,7 +61,12 @@ module.exports = {
             options: babelOptions
           },
           {
-            loader: 'ts-loader'
+            loader: 'ts-loader',
+            options: {
+              compilerOptions: {
+                resolveJsonModule: true
+              }
+            }
           }
         ]
       },
