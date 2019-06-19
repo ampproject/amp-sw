@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { serializeObject } from '../../lib/builder/serialize';
+import { serializeObject } from '../../src/builder/serialize';
 
 describe('serializeObject', () => {
   it('should serialize given object with regexp', () => {

@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-import { buildSW } from '../../../lib/builder/index';
+import { buildSW } from '../../../src/builder/index';
 import { promisify } from 'util';
 import * as fs from 'fs';
 import { join } from 'path';
-import { UNVERSIONED_CACHE_NAME } from '../../../lib/modules/amp-caching/constants';
-import { AMP_ASSET_CACHE } from '../../../lib/modules/asset-caching/constants';
-import { AMP_PUBLISHER_CACHE } from '../../../lib/modules/document-caching/constants';
-import { AMP_PREFETCHED_LINKS } from '../../../lib/modules/link-prefetch/constants';
+import { UNVERSIONED_CACHE_NAME } from '../../../src/modules/amp-caching/constants';
+import { AMP_ASSET_CACHE } from '../../../src/modules/asset-caching/constants';
+import { AMP_PUBLISHER_CACHE } from '../../../src/modules/document-caching/constants';
+import { AMP_PREFETCHED_LINKS } from '../../../src/modules/link-prefetch/constants';
 
 const writeFile = promisify(fs.writeFile);
 const wait = promisify(setTimeout);
