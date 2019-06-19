@@ -17,8 +17,8 @@
 import * as http from 'http';
 import handler from 'serve-handler';
 
-const createServer = () => {
-  return http.createServer((request, response) => {
+const createServer = () =>
+  http.createServer((request, response) => {
     request
       .addListener('end', async () => {
         //
@@ -30,15 +30,13 @@ const createServer = () => {
       })
       .resume();
   });
-};
 
-const startServer = (server, port) => {
-  return new Promise(resolve => {
+const startServer = (server, port) =>
+  new Promise(resolve => {
     server.listen(port, () => {
       console.log(`Test server running at http://localhost:${port}`);
       resolve();
     });
   });
-};
 
 export { createServer, startServer };
