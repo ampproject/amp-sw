@@ -18,25 +18,18 @@ import seleniumAssistant from 'selenium-assistant';
 import Mocha from 'mocha';
 import { expect } from 'chai';
 import { argv } from 'yargs';
-import http from 'http';
+import { promisify } from 'util';
+import { join } from 'path';
 import glob from 'glob-fs';
-const handler = require('serve-handler');
+import * as fs from 'fs';
+import { createServer, startServer } from './server';
+const fetch = require('node-fetch');
 
 const isLocalExecution = !!argv['local'];
 const globfinder = glob();
+const writeFile = promisify(fs.writeFile);
 
-const server = http.createServer((request, response) => {
-  request
-    .addListener('end', async () => {
-      //
-      // Serve files!
-      //
-      await handler(request, response, {
-        cleanUrls: false,
-      });
-    })
-    .resume();
-});
+const server = createServer();
 
 (async () => {
   const expiration = 24;
@@ -54,18 +47,11 @@ const server = http.createServer((request, response) => {
       stop: () => {
         server.close();
       },
-      start: () => {
-        return new Promise(resolve => {
-          server.listen(6881, () => {
-            console.log('Running at http://localhost:6881');
-            resolve();
-          });
-        });
-      },
+      start: () => startServer(server, 6881),
     },
   };
 
-  await global.__AMPSW.server.start();
+  await Promise.all([downloadLatestAmpMeta(), global.__AMPSW.server.start()]);
 
   const browsers = seleniumAssistant.getLocalBrowsers();
   browsers.forEach(async browser => {
@@ -85,6 +71,15 @@ const server = http.createServer((request, response) => {
   });
 })();
 
+async function downloadLatestAmpMeta() {
+  const METADATA_URL = 'https://cdn.ampproject.org/rtv/metadata';
+  const ampRuntimeMeta = await (await fetch(METADATA_URL)).json();
+  await writeFile(
+    join(__dirname, 'amp_metadata.json'),
+    JSON.stringify(ampRuntimeMeta),
+  );
+}
+
 function runMochaForBrowser(driver) {
   global.__AMPSW.driver = driver;
   global.expect = expect;
@@ -93,6 +88,10 @@ function runMochaForBrowser(driver) {
     argv['files'] || 'test/**/*-test.js',
   );
   testFiles.forEach(testFile => {
+    // performance tests are not run in browser with mocha
+    if (testFile.startsWith('test/performance-test/')) {
+      return;
+    }
     console.log(`Testing ${testFile}`);
     mocha.addFile(testFile);
   });

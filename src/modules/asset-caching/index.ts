@@ -31,6 +31,7 @@ export type AssetCachingOptions = Array<{
   regexp: RegExp;
   cachingStrategy: 'NETWORK_FIRST' | 'CACHE_FIRST' | 'STALE_WHILE_REVALIDATE';
   denyList?: Array<RegExp>;
+  purgeOnQuotaError?: boolean;
 }>;
 
 class AssetCachingPlugin extends Plugin {
@@ -74,12 +75,17 @@ export class AssetCachingAmpModule implements AmpSwModule {
   init(assetCachingOptions: AssetCachingOptions) {
     assetCachingOptions.forEach(assetCachingOption => {
       let cachingStrategy = null;
+      let purgeOnQuotaError = true;
+      if (assetCachingOption.purgeOnQuotaError !== undefined) {
+        purgeOnQuotaError = assetCachingOption.purgeOnQuotaError;
+      }
       const cachingConfig = {
         cacheName: AMP_ASSET_CACHE,
         plugins: [
           new AssetCachingPlugin({
             maxEntries: 25,
             denyList: assetCachingOption.denyList,
+            purgeOnQuotaError,
           }),
         ],
       };
