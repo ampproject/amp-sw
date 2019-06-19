@@ -8,8 +8,10 @@
     "build:prod": "npm run build -- --public-path='https://cdn.ampproject.org/sw/'",
     "transpile": "tsc -p ./src/tsconfig.json",
     "pretest": "npm run transpile && npm run build -- --public-path='/test/dist/' && mkdir -p test/dist && cp -R dist/* test/dist",
-    "test": "node -r esm ./test/index.js",
-    "posttest": "npm run test:perf",
+    "test": "yarn test:unit && yarn test:e2e && yarn test:perf",
+    "test:e2e": "node -r esm ./test/index.js",
+    "pretest:unit": "tsc -p src",
+    "test:unit": "node -r esm ./node_modules/.bin/ava ./test/modules/**/unit/*-test.js --verbose",
     "test:perf": "node -r esm ./node_modules/.bin/ava ./test/performance-test/*.js",
     "prepublishOnly": "npm run build:prod",
     "release": "np --yolo"

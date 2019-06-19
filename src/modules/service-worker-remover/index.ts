@@ -51,13 +51,12 @@ export class ServiceWorkerRemover {
     ]);
   }
 
-  forceRefreshClients(clients: Clients) {
-    return clients.claim().then(async () => {
-      // Cache current document if its AMP.
-      const windowClients = await clients.matchAll({ type: 'window' });
-      windowClients.forEach((client: WindowClient) =>
-        client.navigate(client.url),
-      );
-    });
+  async forceRefreshClients(clients: Clients) {
+    await clients.claim();
+    // Cache current document if its AMP.
+    const windowClients = await clients.matchAll({ type: 'window' });
+    windowClients.forEach((client: WindowClient) =>
+      client.navigate(client.url),
+    );
   }
 }

@@ -5,8 +5,7 @@
         "es2017",
         "webworker"
       ],
-      "outDir": "../lib",
-      "sourceMap": true,
+      "sourceMap": false,
       "moduleResolution": "node",
       "target": "esnext",
       "module": "esnext",
