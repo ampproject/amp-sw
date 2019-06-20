@@ -21,6 +21,8 @@ const SizePlugin = require('size-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const ReplaceInFileWebpackPlugin = require('replace-in-file-webpack-plugin');
 const {argv} = require('yargs');
+const { BannerPlugin } = require('webpack');
+const { version } = require('./package.json');
 
 const babelOptions = {
   presets: [
@@ -90,6 +92,10 @@ module.exports = {
         replace: `importScripts('${publicPath}' + `,
       }],
     }]),
+    new BannerPlugin({
+      banner: `AMP_SW_v${version}`,
+      entryOnly: true,
+    })
   ],
   resolve: {
     extensions: ['.ts', '.tsx', '.js']

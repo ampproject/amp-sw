@@ -5,15 +5,16 @@
   "main": "dist/amp-sw.js",
   "scripts": {
     "build": "webpack",
-    "build:prod": "npm run build -- --public-path='https://cdn.ampproject.org/sw/'",
+    "build:prod": "yarn build -- --public-path='https://cdn.ampproject.org/sw/'",
     "transpile": "tsc -p ./src/tsconfig.json",
-    "pretest": "npm run transpile && npm run build -- --public-path='/test/dist/' && mkdir -p test/dist && cp -R dist/* test/dist",
-    "test": "npm-run-all test:*",
-    "test:e2e": "node -r esm ./test/index.js",
+    "pretest": "yarn transpile && yarn build --public-path='/test/dist/' && mkdir -p test/dist && cp -R dist/* test/dist",
     "pretest:unit": "tsc -p src",
+    "test": "npm-run-all test:*",
+    "test:conformance": "node -r esm ./node_modules/.bin/ava ./test/conformance-test/*.js --verbose",
+    "test:e2e": "node -r esm ./test/index.js",
     "test:unit": "node -r esm ./node_modules/.bin/ava ./test/modules/**/unit/*-test.js --verbose",
-    "test:perf": "node -r esm ./node_modules/.bin/ava ./test/performance-test/*.js",
-    "prepublishOnly": "npm run build:prod",
+    "test:perf": "node -r esm ./node_modules/.bin/ava ./test/performance-test/*.js --verbose",
+    "prepublishOnly": "yarn build:prod",
     "release": "np --yolo"
   },
   "repository": {
