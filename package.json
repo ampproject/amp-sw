@@ -43,7 +43,7 @@
     "chromedriver": "2.42.0",
     "clean-webpack-plugin": "1.0.0",
     "esm": "3.0.84",
-    "glob-fs": "0.1.7",
+    "glob": "7.1.4",
     "husky": "1.1.2",
     "lint-staged": "7.3.0",
     "mocha": "5.2.0",
