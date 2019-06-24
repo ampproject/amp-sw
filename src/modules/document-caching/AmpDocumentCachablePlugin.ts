@@ -17,20 +17,23 @@
 // @ts-ignore
 import { Plugin } from 'workbox-cache-expiration';
 
+export interface AmpDocumentCachablePluginConfig {
+  maxEntries: Number;
+  maxAgeSeconds: Number;
+  allowedNonAMPPages: Array<RegExp>;
+}
+
 export default class AmpDocumentCachablePlugin extends Plugin {
   private allowedPages_: Array<RegExp>;
 
-  constructor(config: {
-    maxEntries?: Number;
-    maxAgeSeconds?: Number;
-    allowedNonAMPPages?: Array<RegExp>;
-  }) {
+  constructor(config: AmpDocumentCachablePluginConfig) {
     const { allowedNonAMPPages, ...pluginConfig } = config;
     super(pluginConfig);
-    if (allowedNonAMPPages && Array.isArray(allowedNonAMPPages)) {
+    if (allowedNonAMPPages) {
+      if (!Array.isArray(allowedNonAMPPages)) {
+        throw new TypeError('allowedNonAMPPages should be an array of RegExp');
+      }
       this.allowedPages_ = allowedNonAMPPages;
-    } else if (allowedNonAMPPages && !Array.isArray(allowedNonAMPPages)) {
-      throw new TypeError('allowedNonAMPPages should be an array of RegExp');
     }
   }
   async cacheWillUpdate({
@@ -46,11 +49,13 @@ export default class AmpDocumentCachablePlugin extends Plugin {
       try {
         // Check if the url qualifies for any explicitly allowed page.
         if (this.allowedPages_) {
-          for (let index = 0; index < this.allowedPages_.length; index++) {
-            const currentTestUrl = this.allowedPages_[index];
-            if (currentTestUrl.test(clonedResponse.url)) {
-              return response;
-            }
+          const foundUrlInAllowedPages = this.allowedPages_.some(
+            allowedPageRegExp => {
+              return allowedPageRegExp.test(clonedResponse.url);
+            },
+          );
+          if (foundUrlInAllowedPages) {
+            return response;
           }
         }
 
