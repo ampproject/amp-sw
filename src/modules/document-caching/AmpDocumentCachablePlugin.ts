@@ -26,7 +26,7 @@ export interface AmpDocumentCachablePluginConfig {
 export default class AmpDocumentCachablePlugin extends Plugin {
   private allowedPages_: Array<RegExp>;
 
-  constructor(config: AmpDocumentCachablePluginConfig) {
+  constructor(config: Partial<AmpDocumentCachablePluginConfig>) {
     const { allowedNonAMPPages, ...pluginConfig } = config;
     super(pluginConfig);
     if (allowedNonAMPPages) {
