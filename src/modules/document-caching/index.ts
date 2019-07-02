@@ -24,6 +24,10 @@ import AmpNavigationRoute from './AmpNavigationRoute';
 import { AmpDocumentNetworkFirst } from './AmpDocumentNetworkFirst';
 import { AmpSwModule } from '../core/AmpSwModule';
 
+/* We cannot extend the following type with the type of AmpDocumentCachablePlugin
+ * as the keys of DocumentCaching and AmpDocumentCachablePlugin are different to
+ * allow more verbose name for amp-sw users.
+ */
 export type DocumentCachingOptions = {
   allowList?: Array<RegExp>;
   denyList?: Array<RegExp>;
