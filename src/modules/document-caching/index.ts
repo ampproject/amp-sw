@@ -24,12 +24,17 @@ import AmpNavigationRoute from './AmpNavigationRoute';
 import { AmpDocumentNetworkFirst } from './AmpDocumentNetworkFirst';
 import { AmpSwModule } from '../core/AmpSwModule';
 
+/* We cannot extend the following type with the type of AmpDocumentCachablePlugin
+ * as the keys of DocumentCaching and AmpDocumentCachablePlugin are different to
+ * allow more verbose name for amp-sw users.
+ */
 export type DocumentCachingOptions = {
   allowList?: Array<RegExp>;
   denyList?: Array<RegExp>;
   timeoutSeconds?: Number;
   maxDocumentsInCache?: Number;
   maxAgeSecondsforDocumentsInCache?: Number;
+  allowedNonAMPPages?: Array<RegExp>;
 };
 
 export class DocumentCachingModule implements AmpSwModule {
@@ -80,6 +85,7 @@ export class DocumentCachingModule implements AmpSwModule {
               maxAgeSeconds:
                 documentCachingOptions.maxAgeSecondsforDocumentsInCache ||
                 5 * 24 * 60 * 60,
+              allowedNonAMPPages: documentCachingOptions.allowedNonAMPPages,
             }),
           ],
           networkTimeoutSeconds: documentCachingOptions.timeoutSeconds,
