@@ -23,7 +23,7 @@ import { AMP_PUBLISHER_CACHE } from '../document-caching/constants';
 import { AMP_PREFETCHED_LINKS } from '../link-prefetch/constants';
 
 export class ServiceWorkerRemover {
-  async installNoOpServiceWorker() {
+  async installNoOpServiceWorker(): Promise<void> {
     // Taking over the document
     self.addEventListener('install', function(e: ExtendableEvent) {
       const { skipWaiting } = self as ServiceWorkerGlobalScope;
@@ -41,7 +41,7 @@ export class ServiceWorkerRemover {
     });
   }
 
-  async cleanCacheStorage() {
+  async cleanCacheStorage(): Promise<Array<boolean>> {
     return Promise.all([
       caches.delete(VERSIONED_CACHE_NAME),
       caches.delete(UNVERSIONED_CACHE_NAME),
@@ -51,13 +51,13 @@ export class ServiceWorkerRemover {
     ]);
   }
 
-  forceRefreshClients(clients: Clients) {
-    return clients.claim().then(async () => {
-      // Cache current document if its AMP.
-      const windowClients = await clients.matchAll({ type: 'window' });
-      windowClients.forEach((client: WindowClient) =>
+  async forceRefreshClients(clients: Clients): Promise<void> {
+    await clients.claim();
+    // Cache current document if its AMP.
+    const windowClients = await clients.matchAll({ type: 'window' });
+    windowClients.forEach(
+      (client: WindowClient): Promise<WindowClient | null> =>
         client.navigate(client.url),
-      );
-    });
+    );
   }
 }

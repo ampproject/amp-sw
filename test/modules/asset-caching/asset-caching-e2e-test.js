@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { buildSW } from '../../../lib/builder/index';
+import { buildSW } from '../../../src/builder/index';
 import { promisify } from 'util';
 import * as fs from 'fs';
 import { join } from 'path';

@@ -15,7 +15,7 @@
  */
 
 const fs = require('fs');
-const { buildSW } = require('../../../lib/builder/index');
+const { buildSW } = require('../../../src/builder/index');
 const { promisify } = require('util');
 const { join } = require('path');
 

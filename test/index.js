@@ -85,13 +85,9 @@ function runMochaForBrowser(driver) {
   global.expect = expect;
   const mocha = new Mocha();
   const testFiles = globfinder.readdirSync(
-    argv['files'] || 'test/**/*-test.js',
+    argv['files'] || 'test/**/*-e2e-test.js',
   );
   testFiles.forEach(testFile => {
-    // performance tests are not run in browser with mocha
-    if (testFile.startsWith('test/performance-test/')) {
-      return;
-    }
     console.log(`Testing ${testFile}`);
     mocha.addFile(testFile);
   });
