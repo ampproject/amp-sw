@@ -84,7 +84,7 @@ function runMochaForBrowser(driver) {
   global.expect = expect;
   const mocha = new Mocha();
   const testFiles = glob.sync(
-    argv['files'] || 'test/{builder,modules}/**/*-test.js',
+    argv['files'] || 'test/{builder,modules}/**!(unit)/*-test.js',
   );
   testFiles.forEach(testFile => {
     console.log(`Testing ${testFile}`);
