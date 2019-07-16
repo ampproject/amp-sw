@@ -19,6 +19,7 @@ import { ServiceWorkerConfiguration } from '../../configuration';
 import { AssetCachingOptions } from '../asset-caching';
 import { LinkPrefetchOptions } from '../link-prefetch';
 import { OfflinePageOptions } from '../offline-page';
+
 declare global {
   interface WorkerGlobalScope {
     AMP_SW: {
