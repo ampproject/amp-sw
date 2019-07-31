@@ -1,11 +1,5 @@
 language: node_js
 node_js:
   - "10"
-matrix:
-  include:
-  - name: "Linux"
-    os: linux
-    dist: bionic
-    # See https://docs.travis-ci.com/user/gui-and-headless-browsers/#using-services
-    services:
-      - xvfb
+services:
+  - xvfb
