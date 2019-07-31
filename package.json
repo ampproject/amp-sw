@@ -14,7 +14,7 @@
     "test:e2e": "node -r esm ./test/index.js",
     "test:unit": "node -r esm ./node_modules/.bin/ava ./test/modules/**/unit/*-test.js --verbose",
     "test:perf": "node -r esm ./node_modules/.bin/ava ./test/performance-test/*.js --verbose",
-    "preversion": "run-s build:prod test:conformance",
+    "version": "yarn build:prod",
     "release": "np --yolo"
   },
   "repository": {
