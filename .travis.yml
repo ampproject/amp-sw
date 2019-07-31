@@ -1,9 +1,11 @@
 language: node_js
 node_js:
   - "10"
-
-# Read more here: https://docs.travis-ci.com/user/gui-and-headless-browsers/#Using-xvfb-to-Run-Tests-That-Require-a-GUI
-before_script:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start || echo \"Unable to start virtual display.\""
-  - sleep 3 # give xvfb some time to start
+matrix:
+  include:
+  - name: "Linux"
+    os: linux
+    dist: bionic
+    # See https://docs.travis-ci.com/user/gui-and-headless-browsers/#using-services
+    services:
+      - xvfb
