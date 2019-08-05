@@ -21,6 +21,7 @@ const SizePlugin = require('size-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const ReplaceInFileWebpackPlugin = require('replace-in-file-webpack-plugin');
 const {argv} = require('yargs');
+const { BannerPlugin } = require('webpack');
 
 const babelOptions = {
   presets: [
@@ -39,62 +40,76 @@ const babelOptions = {
 const buildPath = `${__dirname}/dist`;
 const publicPath = argv.publicPath || './dist/';
 
-module.exports = {
-  entry: {
-    'amp-sw': './src/modules/core/index.ts',
-  },
-  output: {
-    path: buildPath,
-    filename: '[name].js',
-    chunkFilename: '[name].js',
-    publicPath,
-  },
-  target: "webworker",
-  mode: "production",
-  module: {
-    rules: [
-      {
-        test: /\.ts$/,
-        use: [
-          {
+module.exports = (options = {}) => {
+  let packageFile = options.packageFile || './package.json';
+  const { version } = require(packageFile);
+
+  return {
+    entry: {
+      'amp-sw': './src/modules/core/index.ts',
+    },
+    output: {
+      path: buildPath,
+      filename: '[name].js',
+      chunkFilename: '[name].js',
+      publicPath,
+    },
+    target: "webworker",
+    mode: "production",
+    module: {
+      rules: [
+        {
+          test: /\.ts$/,
+          use: [
+            {
+              loader: 'babel-loader',
+              options: babelOptions
+            },
+            {
+              loader: 'ts-loader',
+              options: {
+                compilerOptions: {
+                  resolveJsonModule: true
+                }
+              }
+            }
+          ]
+        },
+        {
+          test: /\.m?js$/,
+          use: {
             loader: 'babel-loader',
-            options: babelOptions
-          },
-          {
-            loader: 'ts-loader'
+            options: babelOptions,
           }
-        ]
-      },
-      {
-        test: /\.m?js$/,
-        use: {
-          loader: 'babel-loader',
-          options: babelOptions,
         }
-      }
-    ]
-  },
-  plugins: [
-    new SizePlugin(),
-    new CleanWebpackPlugin([buildPath]),
-    new ReplaceInFileWebpackPlugin([{
-      dir: 'dist',
-      files: ['amp-sw.js'],
-      rules: [{
-        search: 'importScripts(',
-        replace: `importScripts('${publicPath}' + `,
-      }],
-    }]),
-  ],
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js']
-  },
-  optimization: {
-    minimizer: [new TerserPlugin({
-      terserOptions: {
-        ecma: 6,
-        module: true,
-      }
-    })],
-  },
+      ]
+    },
+    plugins: [
+      new SizePlugin(),
+      new CleanWebpackPlugin([buildPath]),
+      new ReplaceInFileWebpackPlugin([{
+        dir: 'dist',
+        files: ['amp-sw.js'],
+        rules: [{
+          search: 'importScripts(',
+          replace: `importScripts('${publicPath}' + `,
+        }],
+      }]),
+      new BannerPlugin({
+        banner: `AMP_SW_v${version}`,
+        entryOnly: true,
+      })
+    ],
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js']
+    },
+    optimization: {
+      minimizer: [new TerserPlugin({
+        terserOptions: {
+          ecma: 6,
+          module: true,
+        }
+      })],
+    },
+  };
 }

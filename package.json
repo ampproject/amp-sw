@@ -1,6 +1,6 @@
 {
   "name": "@ampproject/amp-sw",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A service worker library to turn your AMP pages into PWA with network resiliency.",
   "main": "dist/amp-sw.js",
   "scripts": {
@@ -8,12 +8,13 @@
     "build:prod": "npm run build -- --public-path='https://cdn.ampproject.org/sw/'",
     "transpile": "tsc -p ./src/tsconfig.json && tsc -p ./test/builder/tsconfig.json",
     "pretest": "npm run transpile && npm run build -- --public-path='/test/dist/' && mkdir -p test/dist && cp -R dist/* test/dist",
+    "pretest:unit": "npm run transpile",
     "test": "npm-run-all test:*",
+    "test:conformance": "node -r esm ./node_modules/.bin/ava ./test/conformance-test/*.js --verbose",
     "test:e2e": "node -r esm ./test/index.js",
-    "pretest:unit": "tsc -p src",
     "test:unit": "node -r esm ./node_modules/.bin/ava ./test/modules/**/unit/*-test.js --verbose",
-    "test:perf": "node -r esm ./node_modules/.bin/ava ./test/performance-test/*.js",
-    "prepublishOnly": "npm run build:prod",
+    "test:perf": "node -r esm ./node_modules/.bin/ava ./test/performance-test/*.js --verbose",
+    "version": "npm run build:prod",
     "release": "np --yolo"
   },
   "repository": {
