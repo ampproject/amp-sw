@@ -76,5 +76,6 @@ sample/**/*-sw.js
 #amp metadata
 amp_metadata.json
 
-# no javascript in source dir
+# no javascript in source dir, or builder dir
 src/**/*.js
+test/builder/*.js
