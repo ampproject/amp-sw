@@ -34,43 +34,49 @@ export type AssetCachingOptions = Array<{
   purgeOnQuotaError?: boolean;
 }>;
 
+// TODO(KB): Temporary Interface until Workbox v5. Replace when upgrading.
+interface CacheWillUpdateOptions {
+  request: Request;
+  response: Response;
+}
+
 class AssetCachingPlugin extends Plugin {
-  denyList_?: Array<RegExp>;
+  private denyList: Array<RegExp>;
 
   constructor(config: any, denyList?: Array<RegExp>) {
     super(config);
-    this.denyList_ = denyList;
+    this.denyList = denyList || [];
   }
+
   async cacheWillUpdate({
     request,
     response,
-  }: {
-    request: Request;
-    response: Response;
-  }): Promise<Response | null> {
-    let returnedResponse: Response | null = null;
-    this.denyList_ &&
-      this.denyList_.forEach(deniedUrlRegExp => {
-        if (deniedUrlRegExp.test(request.url)) {
-          return null;
-        }
-      });
-    if (super.cacheWillUpdate) {
-      returnedResponse = await super.cacheWillUpdate({ response });
-    } else {
-      returnedResponse = response;
+  }: CacheWillUpdateOptions): Promise<Response | null> {
+    if (
+      this.denyList.some(deniedUrlRegExp => deniedUrlRegExp.test(request.url))
+    ) {
+      // When matching a RegExp in the DenyList, do not use the cache for the entry.
+      return null;
     }
+
+    const returnedResponse: Response | null = super.cacheWillUpdate
+      ? await super.cacheWillUpdate({ response })
+      : response;
+
     if (!returnedResponse) {
       return null;
     }
+
     const cachableResponse = returnedResponse.clone();
     const responseContentType = cachableResponse.headers.get('content-type');
     if (responseContentType && responseContentType.includes('text/html')) {
       return null;
     }
+
     return cachableResponse;
   }
 }
+
 export class AssetCachingAmpModule implements AmpSwModule {
   init(assetCachingOptions: AssetCachingOptions) {
     assetCachingOptions.forEach(assetCachingOption => {
