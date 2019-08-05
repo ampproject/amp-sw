@@ -18,25 +18,30 @@
 import { NetworkFirst } from 'workbox-strategies';
 import { AMP_PUBLISHER_CACHE } from './constants';
 
+// TODO(KB): Temporary Interface until Workbox v5. Replace when upgrading.
+interface RequestOptions {
+  event: ExtendableEvent;
+  request: Request | string;
+}
+
 export class AmpDocumentNetworkFirst extends NetworkFirst {
-  _offlineFallbackUrl?: string;
+  private offlineFallbackUrl?: string;
 
   constructor(options: any, offlineFallbackUrl?: string) {
     super(options);
-    this._offlineFallbackUrl = offlineFallbackUrl;
+    this.offlineFallbackUrl = offlineFallbackUrl;
   }
 
-  async makeRequest({
-    event,
-    request,
-  }: {
-    event: ExtendableEvent;
-    request: Request;
-  }) {
-    let response = await super.makeRequest({ event, request });
-    if (!response && this._offlineFallbackUrl) {
+  async makeRequest({ event, request }: RequestOptions): Promise<Response> {
+    const response: Response = await super.makeRequest({ event, request });
+    if (!response && this.offlineFallbackUrl) {
       const cache = await caches.open(AMP_PUBLISHER_CACHE);
-      response = await cache.match(this._offlineFallbackUrl);
+      const cachedOfflineFallbackResponse = await cache.match(
+        this.offlineFallbackUrl,
+      );
+      if (cachedOfflineFallbackResponse) {
+        return cachedOfflineFallbackResponse;
+      }
     }
     return response;
   }

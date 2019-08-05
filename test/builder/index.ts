@@ -15,7 +15,7 @@
  */
 
 import { serializeObject } from './serialize';
-import { ServiceWorkerConfiguration } from '../configuration';
+import { ServiceWorkerConfiguration } from '../../src/configuration';
 import { fetchRequiredAssetsForUrl } from './asset-gatherer';
 
 export async function buildSW(

@@ -51,8 +51,9 @@ typings/
 # Output of 'npm pack'
 *.tgz
 
-# Yarn Integrity file
+# Yarn
 .yarn-integrity
+yarn.lock
 
 # dotenv environment variables file
 .env
@@ -75,5 +76,6 @@ sample/**/*-sw.js
 #amp metadata
 amp_metadata.json
 
-# no javascript in source dir
+# no javascript in source dir, or builder dir
 src/**/*.js
+test/builder/*.js

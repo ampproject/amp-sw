@@ -18,7 +18,7 @@ import puppeteer from 'puppeteer';
 import fetch from 'node-fetch';
 import * as fs from 'fs';
 import test from 'ava';
-import { buildSW } from '../../src/builder/index';
+import { buildSW } from '../builder/index';
 import { join } from 'path';
 import { createServer, startServer } from '../server';
 import { promisify } from 'util';
