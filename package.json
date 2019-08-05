@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack",
     "build:prod": "npm run build -- --public-path='https://cdn.ampproject.org/sw/'",
-    "transpile": "tsc -p ./src/tsconfig.json",
+    "transpile": "tsc -p ./src/tsconfig.json && tsc -p ./test/builder/tsconfig.json",
     "pretest": "npm run transpile && npm run build -- --public-path='/test/dist/' && mkdir -p test/dist && cp -R dist/* test/dist",
     "test": "npm-run-all test:*",
     "test:e2e": "node -r esm ./test/index.js",
