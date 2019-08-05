@@ -32,6 +32,7 @@ export type AssetCachingOptions = Array<{
   cachingStrategy: 'NETWORK_FIRST' | 'CACHE_FIRST' | 'STALE_WHILE_REVALIDATE';
   denyList?: Array<RegExp>;
   purgeOnQuotaError?: boolean;
+  maxEntries?: number;
 }>;
 
 // TODO(KB): Temporary Interface until Workbox v5. Replace when upgrading.
@@ -89,7 +90,7 @@ export class AssetCachingAmpModule implements AmpSwModule {
         cacheName: AMP_ASSET_CACHE,
         plugins: [
           new AssetCachingPlugin({
-            maxEntries: 25,
+            maxEntries: assetCachingOption.maxEntries || 25,
             denyList: assetCachingOption.denyList,
             purgeOnQuotaError,
           }),
