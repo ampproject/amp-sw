@@ -20,13 +20,12 @@ import { expect } from 'chai';
 import { argv } from 'yargs';
 import { promisify } from 'util';
 import { join } from 'path';
-import glob from 'glob-fs';
+import glob from 'glob';
 import * as fs from 'fs';
 import { createServer, startServer } from './server';
 const fetch = require('node-fetch');
 
 const isLocalExecution = !!argv['local'];
-const globfinder = glob();
 const writeFile = promisify(fs.writeFile);
 
 const server = createServer();
@@ -84,8 +83,8 @@ function runMochaForBrowser(driver) {
   global.__AMPSW.driver = driver;
   global.expect = expect;
   const mocha = new Mocha();
-  const testFiles = globfinder.readdirSync(
-    argv['files'] || 'test/**/*-e2e-test.js',
+  const testFiles = glob.sync(
+    argv['files'] || 'test/{builder,modules}/**!(unit)/*-test.js',
   );
   testFiles.forEach(testFile => {
     console.log(`Testing ${testFile}`);
