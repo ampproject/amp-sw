@@ -85,7 +85,7 @@ module.exports = (options = {}) => {
       ]
     },
     plugins: [
-      new SizePlugin(),
+      new SizePlugin({publish:true}),
       new CleanWebpackPlugin([buildPath]),
       new ReplaceInFileWebpackPlugin([{
         dir: 'dist',
