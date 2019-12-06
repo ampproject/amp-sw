@@ -42,7 +42,7 @@
     "chai": "4.2.0",
     "chromedriver": "78.0.1",
     "clean-webpack-plugin": "1.0.0",
-    "esm": "3.2.25",
+    "esm": "3.1.0",
     "glob": "7.1.4",
     "husky": "1.1.2",
     "lint-staged": "7.3.0",
