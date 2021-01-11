@@ -22,6 +22,6 @@ jobs:
       - name: Install Dependencies
         run: npm install
       - name: Build
-        run: npm build:prod
+        run: npm run build:prod
       - name: Validate Size
         run: npx filesize
