@@ -43,49 +43,49 @@ function init(config: ServiceWorkerConfiguration = {}) {
     fallbackOfflinePageUrl,
   );
   if (config.assetCachingOptions) {
-    import(/* webpackChunkName: "optional-modules" */ '../asset-caching/index').then(
-      async ({ AssetCachingAmpModule }) => {
-        const assetCachingModule = new AssetCachingAmpModule();
-        await assetCachingModule.init(
-          config.assetCachingOptions as AssetCachingOptions,
-        );
-      },
-    );
+    import(
+      /* webpackChunkName: "optional-modules" */ '../asset-caching/index'
+    ).then(async ({ AssetCachingAmpModule }) => {
+      const assetCachingModule = new AssetCachingAmpModule();
+      await assetCachingModule.init(
+        config.assetCachingOptions as AssetCachingOptions,
+      );
+    });
   }
 
   if (config.linkPrefetchOptions) {
-    import(/* webpackChunkName: "optional-modules" */ '../link-prefetch/index').then(
-      async ({ LinkPrefetchAmpModule }) => {
-        const linkPrefetchModule = new LinkPrefetchAmpModule();
-        await linkPrefetchModule.init(
-          config.linkPrefetchOptions as LinkPrefetchOptions,
-          navRoute,
-        );
-      },
-    );
+    import(
+      /* webpackChunkName: "optional-modules" */ '../link-prefetch/index'
+    ).then(async ({ LinkPrefetchAmpModule }) => {
+      const linkPrefetchModule = new LinkPrefetchAmpModule();
+      await linkPrefetchModule.init(
+        config.linkPrefetchOptions as LinkPrefetchOptions,
+        navRoute,
+      );
+    });
   }
 
   if (config.offlinePageOptions) {
-    import(/* webpackChunkName: "optional-modules" */ '../offline-page/index').then(
-      async ({ OfflinePageAmpSwModule }) => {
-        const offlinePageModule = new OfflinePageAmpSwModule();
-        const offlinePageConfig: OfflinePageOptions = config.offlinePageOptions as OfflinePageOptions;
-        await offlinePageModule.init(
-          offlinePageConfig.url,
-          offlinePageConfig.assets,
-        );
-      },
-    );
+    import(
+      /* webpackChunkName: "optional-modules" */ '../offline-page/index'
+    ).then(async ({ OfflinePageAmpSwModule }) => {
+      const offlinePageModule = new OfflinePageAmpSwModule();
+      const offlinePageConfig: OfflinePageOptions = config.offlinePageOptions as OfflinePageOptions;
+      await offlinePageModule.init(
+        offlinePageConfig.url,
+        offlinePageConfig.assets,
+      );
+    });
   }
 
   // Taking over the document
-  self.addEventListener('install', function(e: ExtendableEvent) {
-    const { skipWaiting } = self as ServiceWorkerGlobalScope;
+  self.addEventListener('install', function (e: ExtendableEvent) {
+    const { skipWaiting } = (self as unknown) as ServiceWorkerGlobalScope;
     e.waitUntil(skipWaiting());
   });
 
   self.addEventListener('activate', async (e: ExtendableEvent) => {
-    const { clients } = self as ServiceWorkerGlobalScope;
+    const { clients } = (self as unknown) as ServiceWorkerGlobalScope;
     e.waitUntil(
       clients.claim().then(async () => {
         // Cache current document if its AMP.
@@ -99,9 +99,10 @@ function init(config: ServiceWorkerConfiguration = {}) {
 }
 
 function forcedNullifcation() {
-  import(/* webpackChunkName: "service-worker-remover" */ '../service-worker-remover/index').then(
-    async ({ ServiceWorkerRemover }) =>
-      new ServiceWorkerRemover().installNoOpServiceWorker(),
+  import(
+    /* webpackChunkName: "service-worker-remover" */ '../service-worker-remover/index'
+  ).then(async ({ ServiceWorkerRemover }) =>
+    new ServiceWorkerRemover().installNoOpServiceWorker(),
   );
 }
 

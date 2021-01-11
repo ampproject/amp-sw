@@ -20,7 +20,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 const SizePlugin = require('size-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const ReplaceInFileWebpackPlugin = require('replace-in-file-webpack-plugin');
-const {argv} = require('yargs');
+// const {argv} = require('yargs');
 const { BannerPlugin } = require('webpack');
 
 const babelOptions = {
@@ -29,8 +29,9 @@ const babelOptions = {
       "@babel/preset-env",
       {
         "targets": {
-          "esmodules": true
-        }
+          "esmodules": true,
+        },
+        "bugfixes": true,
       }
     ]
   ],
@@ -38,11 +39,10 @@ const babelOptions = {
 };
 
 const buildPath = `${__dirname}/dist`;
-const publicPath = argv.publicPath || './dist/';
 
-module.exports = (options = {}) => {
-  let packageFile = options.packageFile || './package.json';
-  const { version } = require(packageFile);
+module.exports = env => {
+  const { version } = require(env.packageFile || './package.json');
+  const publicPath = env.location || './dist/';
 
   return {
     entry: {
@@ -105,6 +105,7 @@ module.exports = (options = {}) => {
     },
     optimization: {
       minimizer: [new TerserPlugin({
+        extractComments: false,
         terserOptions: {
           ecma: 6,
           module: true,
