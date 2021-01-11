@@ -37,7 +37,7 @@ test.after(async () => {
   await deleteFile(newPackageFile);
 });
 
-test('should have the package version for the bundle', async t => {
+test('should have the package version for the bundle', async (t) => {
   const entryBundlePath = resolve(__dirname, '../../dist/amp-sw.js');
   const entryBundleContent = await readFile(entryBundlePath, 'utf-8');
   t.assert(entryBundleContent.startsWith(`/*! AMP_SW_v${version} */`));

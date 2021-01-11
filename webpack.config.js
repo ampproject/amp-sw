@@ -16,7 +16,6 @@
 
 
 const CleanWebpackPlugin = require('clean-webpack-plugin')
-const SizePlugin = require('size-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const ReplaceInFileWebpackPlugin = require('replace-in-file-webpack-plugin');
 const { BannerPlugin } = require('webpack');
@@ -83,7 +82,6 @@ module.exports = env => {
       ]
     },
     plugins: [
-      new SizePlugin(),
       new CleanWebpackPlugin([buildPath]),
       new ReplaceInFileWebpackPlugin([{
         dir: 'dist',
