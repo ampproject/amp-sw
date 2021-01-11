@@ -52,7 +52,6 @@
     "npm-run": "5.0.1",
     "npm-run-all": "4.1.5",
     "prettier": "2.2.1",
-    "promisify": "0.0.3",
     "puppeteer": "5.5.0",
     "replace-in-file-webpack-plugin": "1.0.6",
     "selenium-assistant": "6.1.0",
