@@ -75,16 +75,13 @@
   },
   "lint-staged": {
     "./index.js": [
-      "prettier --write --config ./.prettierrc",
-      "git add"
+      "prettier --write --config ./.prettierrc"
     ],
     "src/**/*.ts": [
-      "prettier --write --config ./.prettierrc",
-      "git add"
+      "prettier --write --config ./.prettierrc"
     ],
     "test/**/*.js": [
-      "prettier --write --config ./.prettierrc",
-      "git add"
+      "prettier --write --config ./.prettierrc"
     ]
   },
   "husky": {
