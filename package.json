@@ -10,7 +10,7 @@
     "pretest": "npm run transpile && npm run build -- --env location='/test/dist/' && mkdir -p test/dist && cp -R dist/* test/dist",
     "pretest:unit": "npm run transpile",
     "test": "npm-run-all test:*",
-    "test:conformance": "node -r esm ./node_modules/.bin/ava ./test/conformance-test/*.js --verbose",
+    "test:conformance": "node -r esm ./node_modules/.bin/ava ./test/conformance-test/*.js --verbose --timeout=4m",
     "test:e2e": "node -r esm ./test/index.js",
     "test:unit": "node -r esm ./node_modules/.bin/ava ./test/modules/**/unit/*-test.js --verbose",
     "test:perf": "node -r esm ./node_modules/.bin/ava ./test/performance-test/*.js --verbose",
