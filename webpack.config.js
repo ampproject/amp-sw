@@ -15,12 +15,10 @@
  */
 
 
-const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const SizePlugin = require('size-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const ReplaceInFileWebpackPlugin = require('replace-in-file-webpack-plugin');
-// const {argv} = require('yargs');
 const { BannerPlugin } = require('webpack');
 
 const babelOptions = {
