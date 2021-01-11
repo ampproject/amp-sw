@@ -1,0 +1,25 @@
+name: Test Suite
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        platform: [macos-latest]
+        node-version: [14.x]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Install Dependencies
+        run: npm install
+      - name: Build and Test
+        run: npm test

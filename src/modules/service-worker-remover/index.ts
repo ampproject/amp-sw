@@ -25,13 +25,13 @@ import { AMP_PREFETCHED_LINKS } from '../link-prefetch/constants';
 export class ServiceWorkerRemover {
   async installNoOpServiceWorker(): Promise<void> {
     // Taking over the document
-    self.addEventListener('install', function(e: ExtendableEvent) {
-      const { skipWaiting } = self as ServiceWorkerGlobalScope;
+    self.addEventListener('install', function (e: ExtendableEvent) {
+      const { skipWaiting } = (self as unknown) as ServiceWorkerGlobalScope;
       e.waitUntil(skipWaiting());
     });
 
     self.addEventListener('activate', async (e: ExtendableEvent) => {
-      const { clients } = self as ServiceWorkerGlobalScope;
+      const { clients } = (self as unknown) as ServiceWorkerGlobalScope;
       e.waitUntil(
         Promise.all([
           this.cleanCacheStorage(),
