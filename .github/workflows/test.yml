@@ -1,4 +1,4 @@
-name: Cross-Browser Tests
+name: Test Suite
 on:
   push:
     branches:
